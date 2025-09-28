@@ -3,7 +3,7 @@ import { createClient } from 'microcms-js-sdk';
 
 // 環境変数のチェック
 if (!process.env.MICROCMS_SERVICE_DOMAIN || !process.env.MICROCMS_API_KEY) {
-  console.warn('MICROCMS_SERVICE_DOMAIN または MICROCMS_API_KEY が環境変数に設定されていません。');
+  console.warn('MICROCMS_SERVICE_DOMAIN or MICROCMS_API_KEY environment variables are not set.');
 }
 
 // microCMSクライアントの作成
@@ -48,67 +48,61 @@ export type Blog = {
       width: number;
     };
   };
-  tags: [
-    {
+  tags: {
+    id: string;
+    createdAt: string;
+    updatedAt: string;
+    publishedAt: string;
+    revisedAt: string;
+    name: string;
+  }[];
+  custom_body: {
+    fieldId: string;
+    toc_visible: boolean;
+    blog_body: string;
+    related_blogs: {
       id: string;
       createdAt: string;
       updatedAt: string;
       publishedAt: string;
       revisedAt: string;
-      name: string;
-    },
-  ];
-  custom_body: {
-    fieldId: string;
-    toc_visible: boolean;
-    blog_body: string;
-    related_blogs: [
-      {
+      date: string;
+      title: string;
+      slug: string;
+      ogp_image: {
+        url: string;
+        height: number;
+        width: number;
+      };
+      authors?: {
         id: string;
         createdAt: string;
         updatedAt: string;
         publishedAt: string;
         revisedAt: string;
-        date: string;
-        title: string;
-        slug: string;
-        ogp_image: {
+        name: string;
+        image: {
           url: string;
           height: number;
           width: number;
         };
-        authors?: {
-          id: string;
-          createdAt: string;
-          updatedAt: string;
-          publishedAt: string;
-          revisedAt: string;
-          name: string;
-          image: {
-            url: string;
-            height: number;
-            width: number;
-          };
-        };
-        tags?: [
-          {
-            id: string;
-            createdAt: string;
-            updatedAt: string;
-            publishedAt: string;
-            revisedAt: string;
-            name: string;
-          },
-        ];
-        custom_body: {
-          fieldId: string;
-          toc_visible: boolean;
-          body: string;
-          related_blogs: [];
-        };
-        excerpt: string;
-      },
-    ];
+      };
+      tags?: {
+        id: string;
+        createdAt: string;
+        updatedAt: string;
+        publishedAt: string;
+        revisedAt: string;
+        name: string;
+      }[];
+      custom_body: {
+        fieldId: string;
+        toc_visible: boolean;
+        body: string;
+        related_blogs: any[]; // Use any[] or define the type if needed
+      };
+      excerpt: string;
+    }[];
   };
   excerpt: string;
 };
