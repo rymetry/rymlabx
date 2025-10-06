@@ -44,19 +44,10 @@ type SheetContentProps = React.ComponentProps<typeof SheetPrimitive.Content> & {
 };
 
 function SheetContent({ className, children, side = 'right', title, ...props }: SheetContentProps) {
-  const contentProps = {
-    ...props,
-  } as React.ComponentProps<typeof SheetPrimitive.Content> & {
-    'aria-label'?: string;
-    'aria-labelledby'?: string;
-  };
+  const { 'aria-label': ariaLabel, 'aria-labelledby': ariaLabelledBy, ...contentProps } = props;
 
-  const ariaLabel = (contentProps as { 'aria-label'?: string })['aria-label'];
-  const ariaLabelledBy = (contentProps as { 'aria-labelledby'?: string })['aria-labelledby'];
-
-  if (title && !ariaLabel && !ariaLabelledBy) {
-    (contentProps as { 'aria-label': string })['aria-label'] = title;
-  }
+  const labelledProps =
+    title && !ariaLabel && !ariaLabelledBy ? { 'aria-label': title } : undefined;
 
   const shouldRenderHiddenTitle = Boolean(title && !ariaLabelledBy);
 
@@ -78,6 +69,7 @@ function SheetContent({ className, children, side = 'right', title, ...props }: 
           className,
         )}
         {...contentProps}
+        {...labelledProps}
       >
         {shouldRenderHiddenTitle ? (
           <SheetPrimitive.Title className="sr-only">{title}</SheetPrimitive.Title>
