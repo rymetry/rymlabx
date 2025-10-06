@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { BsFacebook, BsGithub, BsInstagram, BsMailbox, BsTwitterX } from 'react-icons/bs';
+import { BsFacebook, BsGithub, BsInstagram, BsTwitterX } from 'react-icons/bs';
 
 export default function Footer() {
   return (
@@ -51,13 +51,6 @@ export default function Footer() {
                 aria-label="GitHub"
               >
                 <BsGithub className="h-5 w-5" aria-hidden="true" />
-              </Link>
-              <Link
-                href="/contact"
-                className="text-muted-foreground hover:text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-md p-2 sm:p-3 min-w-[44px] min-h-[44px] flex items-center justify-center"
-                aria-label="Contact us"
-              >
-                <BsMailbox className="h-5 w-5" aria-hidden="true" />
               </Link>
             </div>
             <div className="w-full text-center md:text-right md:pr-3">
