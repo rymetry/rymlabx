@@ -38,14 +38,28 @@ function SheetOverlay({
   );
 }
 
-function SheetContent({
-  className,
-  children,
-  side = 'right',
-  ...props
-}: React.ComponentProps<typeof SheetPrimitive.Content> & {
+type SheetContentProps = React.ComponentProps<typeof SheetPrimitive.Content> & {
   side?: 'top' | 'right' | 'bottom' | 'left';
-}) {
+  title?: string;
+};
+
+function SheetContent({ className, children, side = 'right', title, ...props }: SheetContentProps) {
+  const contentProps = {
+    ...props,
+  } as React.ComponentProps<typeof SheetPrimitive.Content> & {
+    'aria-label'?: string;
+    'aria-labelledby'?: string;
+  };
+
+  const ariaLabel = (contentProps as { 'aria-label'?: string })['aria-label'];
+  const ariaLabelledBy = (contentProps as { 'aria-labelledby'?: string })['aria-labelledby'];
+
+  if (title && !ariaLabel && !ariaLabelledBy) {
+    (contentProps as { 'aria-label': string })['aria-label'] = title;
+  }
+
+  const shouldRenderHiddenTitle = Boolean(title && !ariaLabelledBy);
+
   return (
     <SheetPortal>
       <SheetOverlay />
@@ -63,8 +77,11 @@ function SheetContent({
             'data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom inset-x-0 bottom-0 h-auto border-t',
           className,
         )}
-        {...props}
+        {...contentProps}
       >
+        {shouldRenderHiddenTitle ? (
+          <SheetPrimitive.Title className="sr-only">{title}</SheetPrimitive.Title>
+        ) : null}
         {children}
         <SheetPrimitive.Close className="ring-offset-background focus:ring-ring data-[state=open]:bg-secondary absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none">
           <XIcon className="size-4" />
